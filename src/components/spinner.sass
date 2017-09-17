@@ -1,0 +1,26 @@
+.Spinner
+  position: relative
+  text-align: center
+  margin: 0 auto
+  width: 38px
+  display: block
+  &:after
+    content: ""
+    display: block
+    padding-bottom: 100%
+    background: url(../common/images/loading.svg) center center no-repeat
+      size: cover
+    animation-name: spin
+    animation-duration: 750ms
+    animation-iteration-count: infinite
+    animation-timing-function: linear
+
+.Spinner--lg
+  width: 100%
+  &:after
+    animation-duration: 1200ms
+
+.Spinner--centered
+  position: absolute
+  top: 50%
+  left: 50%
