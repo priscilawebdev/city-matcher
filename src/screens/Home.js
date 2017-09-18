@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
+import { find } from 'lodash'
 import Snackbar from 'material-ui/Snackbar'
 import Row from '../components/Row'
 import Loading from '../components/Loading'
@@ -24,13 +25,16 @@ class Home extends Component {
 		return (e === 'a' || e === 'ab' || e === 'ac') ? getCountryList(e.toLowerCase()) : null
 	}
 
-	onSelectSuggestion(country) {
-		const { emitNotification } = this.props
+	onSelectSuggestion(country, id) {
+		const { emitNotification, allCountries } = this.props
+		const result = find(allCountries, (item) => item.id === id)
 		const lastSelection = {
 			city: country.name,
 			selected: country
 		}
-		emitNotification('info', lastSelection)
+		result === country && (
+			emitNotification('info', lastSelection)
+		)
 	}
 
 	onCloseSnack() {
