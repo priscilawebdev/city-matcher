@@ -7,21 +7,17 @@ import config from '../webpack.config.dev'
 
 /* eslint-disable no-console */
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 3000
 const app = express()
 const compiler = webpack(config)
 
-
+app.use(cors())
 app.use(require('webpack-dev-middleware')(compiler, {
 	noInfo: true,
 	publicPath: config.output.publicPath
 }))
 app.use(require('webpack-hot-middleware')(compiler))
-
-app.use(cors())
-
 app.use('/api', express.static(path.join(process.cwd(), 'api')))
-
 app.get('/', (req, res, next) => {
 	const filename = path.join(compiler.outputPath, 'index.html')
 	compiler.outputFileSystem.readFile(filename, (err, result) => {

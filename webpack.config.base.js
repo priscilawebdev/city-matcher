@@ -3,15 +3,8 @@
  */
 
 const path = require('path')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = (options) => {
-	if (options.stats) {
-		options.plugins.push(
-			new BundleAnalyzerPlugin()
-		)
-	}
-
 	return {
 		entry: options.entry,
 		output: Object.assign({ // Compile into dist
@@ -96,12 +89,6 @@ module.exports = (options) => {
 			}, {
 				test: /\.json$/,
 				loader: 'json-loader'
-			}, {
-				test: /\.(mp4|webm)$/,
-				loader: 'url-loader',
-				query: {
-					limit: 10000
-				}
 			}]
 		},
 		plugins: options.plugins,

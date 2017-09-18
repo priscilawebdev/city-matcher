@@ -1,29 +1,18 @@
 .Row
-  display: flex
-  align-items: stretch
-
-  &__city,
-  &__autocomplete
+  &__row
     display: flex
-    flex-direction: column
-    align-items: flex-start
-    justify-content: center
-    width: 50%
-    padding: 0 20px
 
-  &__autocomplete
-    display: flex
-    flex-direction: column
-    align-items: flex-start
-    justify-content: center
-    width: 50%
-    padding: 0 20px
+  &__col
+    flex: 1
 
   &__city
+    height: 100%
+    display: flex
     flex-direction: row
     align-items: center
     justify-content: left
-    font-size: 20px
+    flex-wrap: wrap
+    font-size: 15px
     margin: 0
 
   &__name
@@ -33,5 +22,14 @@
     font-size: 15px
     color: #d3d3d3
 
-  &__autocomplete
-    align-items: stretch
+@media only screen and (max-width: 400px)
+  .Row__row
+    display: block
+  .Row__col
+    width: 100%
+    margin: 0 0 10px 0
+
+@media only screen and (min-width: 480px)
+  .Row__autocomplete
+    max-width: 200px
+

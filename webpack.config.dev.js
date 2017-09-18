@@ -28,21 +28,11 @@ module.exports = require('./webpack.config.base')({
 		'webpack-hot-middleware/client?reload=true',
 		path.join(__dirname, 'src/index.js') // Start with src/index.js
 	],
-
-	// Don't use hashes in dev mode for better performance
 	output: {
 		filename: '[name].js'
 	},
-
-	// Add development plugins
 	plugins,
-
-	// Tell babel that we want to hot-reload
 	babelQuery: {
-		// require.resolve solves the issue of relative presets when dealing with
-		// locally linked packages. This is an issue with babel and webpack.
-		// See https://github.com/babel/babel-loader/issues/149 and
-		// https://github.com/webpack/webpack/issues/1866
 		presets: ['babel-preset-react-hmre'].map(require.resolve)
 	},
 	devtool: 'eval-source-map',

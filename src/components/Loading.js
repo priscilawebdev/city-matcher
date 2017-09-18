@@ -1,5 +1,4 @@
 import React from 'react'
-import { pure } from 'recompose'
 import BEMHelper from 'react-bem-helper'
 import Spinner from './Spinner'
 import './loading.sass'
@@ -8,7 +7,7 @@ const classes = new BEMHelper({
 	name: 'Loading'
 })
 
-export const renderLoading = () => (
+export const Loading = () => (
 	<div {...classes()}>
 		<div {...classes('loading')}>
 			<div {...classes('spinner')}>
@@ -17,7 +16,5 @@ export const renderLoading = () => (
 		</div>
 	</div>
 )
-
-const Loading = pure(renderLoading)
 
 export default Loading

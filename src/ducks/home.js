@@ -1,35 +1,27 @@
+import { fromJS } from 'immutable'
 import rest from '../common/rest'
 
-const initialState = {
+const initialState = fromJS({
 	allCountries: [],
-	countryList: {
-		items: []
-	},
-	requestedCountries: [],
-	countriesPerPage: 5,
-	lastSelection: {},
+	countryList: [],
 	isFetching: false
-}
-
+})
 
 export default function reducer(state = initialState, { type, payload }) {
 	switch (type) {
 		case actions.LOAD_ALL_COUNTRIES:
-			return {
-				...state,
+			return state.merge({
 				isFetching: true
-			}
+			})
 		case actions.LOAD_ALL_COUNTRIES_FULFILLED:
-			return {
-				...state,
+			return state.merge({
 				allCountries: payload.allCountries,
 				isFetching: false
-			}
+			})
 		case actions.LOAD_COUNTRIES_LIST_FULFILLED:
-			return {
-				...state,
+			return state.merge({
 				countryList: payload.countryList
-			}
+			})
 		default:
 			return state
 	}
@@ -41,8 +33,6 @@ export function getAllCountries() {
 		rest.doGet('/api/all.json')
 			.then((allCountries) => {
 				dispatch(actions.recieveAllCountriesSuccessful(allCountries.data))
-			}, (reason) => {
-				console.log(reason)
 			})
 	}
 }
@@ -53,8 +43,6 @@ export function getCountryList(query) {
 		rest.doGet(`/api/${query}.json`)
 			.then((countryList) => {
 				dispatch(actions.recieveCountryListSuccessful(countryList.data))
-			}, (reason) => {
-				console.log(reason)
 			})
 	}
 }
