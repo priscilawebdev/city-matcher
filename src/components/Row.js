@@ -61,7 +61,8 @@ Row.propTypes = {
 	item: PropTypes.object.isRequired,
 	countryList: PropTypes.array.isRequired,
 	onSelectSuggestion: PropTypes.func.isRequired,
-	onGetSuggestions: PropTypes.func.isRequired
+	onGetSuggestions: PropTypes.func.isRequired,
+	intl: PropTypes.object
 }
 
 export default injectIntl(Row)
