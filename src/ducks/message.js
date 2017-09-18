@@ -44,9 +44,9 @@ export const actions = {
 	CREATE_NOTIFICATION: 'city-matcher/home/CREATE_NOTIFICATION',
 	DESTROY_NOTIFICATION: 'city-matcher/home/DESTROY_NOTIFICATION',
 
-	emitNotification: (id, type, content, timeout) => ({
+	emitNotification: (id, type, content) => ({
 		type: actions.EMIT_NOTIFICATION,
-		payload: { id, type, content, timeout }
+		payload: { id, type, content }
 	}),
 	createNotification: (id, type, content) => ({
 		type: actions.CREATE_NOTIFICATION,

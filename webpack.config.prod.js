@@ -41,7 +41,7 @@ module.exports = require('./webpack.config.base')({
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		// Minify and optimize the index.html
 		new HtmlWebpackPlugin({
-			template: 'public/index.html',
+			template: 'index.html',
 			minify: {
 				removeComments: true,
 				collapseWhitespace: true,
