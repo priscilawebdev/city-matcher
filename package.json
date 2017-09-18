@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "0.16.2",
     "bootstrap-sass": "3.3.7",
+    "colors": "^1.1.2",
     "compression": "^1.7.0",
     "compression-webpack-plugin": "^1.0.0",
     "cors": "2.7.1",
@@ -53,8 +54,8 @@
     "babel-cli": "6.24.1",
     "babel-core": "6.17.0",
     "babel-eslint": "7.2.3",
-    "babel-node": "6.5.3",
     "babel-loader": "6.2.5",
+    "babel-node": "6.5.3",
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-plugin-react-html-attrs": "2.0.0",
     "babel-plugin-transform-class-properties": "6.16.0",

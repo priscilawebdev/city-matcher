@@ -6,7 +6,7 @@ import compression from 'compression'
 
 /* eslint-disable no-console */
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 3000
 const app = express()
 
 
