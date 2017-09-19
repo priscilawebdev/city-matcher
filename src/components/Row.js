@@ -10,19 +10,6 @@ const classes = new BEMHelper({
 })
 
 class Row extends Component {
-	constructor(props) {
-		super(props)
-		this.mapCountries = ::this.mapCountries
-	}
-
-	mapCountries(countries) {
-		const newCountries = []
-		countries.map((item) => newCountries.push({
-			id: item.id, name: item.country
-		}))
-		return newCountries
-	}
-
 	render() {
 		const { intl: { formatMessage }, item, countryList, onGetSuggestions, onSelectSuggestion } = this.props
 		return (
@@ -41,10 +28,10 @@ class Row extends Component {
 								floatingLabelText={formatMessage({ id: 'autocomplete.row.label' })}
 								name='autocomplete'
 								hintText={formatMessage({ id: 'autocomplete.row.placeholder' })}
-								dataSource={this.mapCountries(countryList)}
+								dataSource={countryList}
 								onNewRequest={(e) => onSelectSuggestion(item, e.id)}
 								onUpdateInput={(e) => onGetSuggestions(e)}
-								dataSourceConfig={{ text: 'name', value: 'id' }}
+								dataSourceConfig={{ text: 'country', value: 'id' }}
 								filter={AutoComplete.noFilter}
 								maxSearchResults={5}
 								fullWidth
