@@ -1,26 +1,29 @@
 import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
+import Waypoint from 'react-waypoint'
 import Row from '../components/Row'
 import Loading from '../components/Loading'
 
 class Home extends Component {
 	constructor(props) {
 		super(props)
-		this.renderCityRow = ::this.renderCityRow
-		this.mapAllCountries = ::this.mapAllCountries
 		this.onGetSuggestions = ::this.onGetSuggestions
 		this.onCloseSnack = ::this.onCloseSnack
 		this.onSelectSuggestion = ::this.onSelectSuggestion
+		this.loadMore = ::this.loadMore
+		this.renderCountryRow = ::this.renderCountryRow
+		this.state = {
+			page: 1,
+			limitPerPage: 10,
+			currentCountries: [],
+			isLoading: false
+		}
 	}
 
 	componentDidMount() {
 		const { getAllCountries } = this.props
 		getAllCountries()
-	}
-
-	shouldComponentUpdate() {
-		return this.props.allCountries.length === 0
 	}
 
 	onGetSuggestions(e) {
@@ -45,24 +48,35 @@ class Home extends Component {
 		dismissNotification()
 	}
 
-	mapAllCountries(data) {
-		return (data.map(this.renderCityRow))
+	loadMore(splittedCountries) {
+		const currentCountries = this.state.currentCountries
+		this.setState({ isLoading: true })
+		splittedCountries.map((country) => (
+			currentCountries.push(country)
+		))
+		this.setState({
+			page: this.state.page += 1,
+			currentCountries,
+			isLoading: false
+		})
 	}
 
-	renderCityRow(data, index) {
-		return (
-			<div className='list-group-item' key={index}>
-				<Row
-					item={data}
-					onGetSuggestions={this.onGetSuggestions}
-					onSelectSuggestion={this.onSelectSuggestion}
-				/>
-			</div>
-		)
+	renderCountryRow() {
+		return this.state.currentCountries.map((country) => (
+			<Row
+				key={country.id}
+				item={country}
+				onGetSuggestions={this.onGetSuggestions}
+				onSelectSuggestion={this.onSelectSuggestion}
+			/>
+		))
 	}
 
 	render() {
-		const { intl: { formatMessage }, allCountries, isFetching, show, content } = this.props
+		const { intl: { formatMessage }, isFetching, show, content, allCountries } = this.props
+		const indexOfLastCountries = this.state.page * this.state.limitPerPage
+		const indexOfFirstCountries = indexOfLastCountries - this.state.limitPerPage
+		const splittedCountries = allCountries.slice(indexOfFirstCountries, indexOfLastCountries)
 		return (
 			<div className='main'>
 				<div className='container-fluid'>
@@ -71,10 +85,15 @@ class Home extends Component {
 							isFetching ? (
 								<Loading />
 							) : (
-								allCountries && allCountries.length && allCountries !== null ? this.mapAllCountries(allCountries) : null
+								<div className='list-group-item'>
+									{ this.renderCountryRow() }
+								</div>
 							)
 						}
 					</div>
+					<Waypoint
+						onEnter={() => this.loadMore(splittedCountries)}
+					/>
 					<Snackbar
 						open={show}
 						onRequestClose={() => this.onCloseSnack()}
