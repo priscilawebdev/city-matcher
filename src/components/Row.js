@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import BEMHelper from 'react-bem-helper'
 import AutoComplete from 'material-ui/AutoComplete'
+import { SelectHome } from '../screens/selectors'
 import './row.sass'
 
 const classes = new BEMHelper({
@@ -52,4 +54,8 @@ Row.propTypes = {
 	intl: PropTypes.object
 }
 
-export default injectIntl(Row)
+const mapStateToProps = (state) => ({
+	...SelectHome(state)
+})
+
+export default connect(mapStateToProps)(injectIntl(Row))

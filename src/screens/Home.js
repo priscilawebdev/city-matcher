@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
-import { find } from 'lodash'
 import Snackbar from 'material-ui/Snackbar'
 import Row from '../components/Row'
 import Loading from '../components/Loading'
@@ -18,6 +17,10 @@ class Home extends Component {
 	componentDidMount() {
 		const { getAllCountries } = this.props
 		getAllCountries()
+	}
+
+	shouldComponentUpdate() {
+		return this.props.allCountries.length === 0
 	}
 
 	onGetSuggestions(e) {
@@ -47,12 +50,10 @@ class Home extends Component {
 	}
 
 	renderCityRow(data, index) {
-		const { countryList } = this.props
 		return (
 			<div className='list-group-item' key={index}>
 				<Row
 					item={data}
-					countryList={countryList}
 					onGetSuggestions={this.onGetSuggestions}
 					onSelectSuggestion={this.onSelectSuggestion}
 				/>
@@ -67,10 +68,11 @@ class Home extends Component {
 				<div className='container-fluid'>
 					<div className='list-group'>
 						{
-							!isFetching ? (
+							isFetching ? (
+								<Loading />
+							) : (
 								allCountries && allCountries.length && allCountries !== null ? this.mapAllCountries(allCountries) : null
-							) :
-								(<Loading />)
+							)
 						}
 					</div>
 					<Snackbar
