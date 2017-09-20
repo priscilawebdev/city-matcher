@@ -11,7 +11,7 @@ export const Loading = () => (
 	<div {...classes()}>
 		<div {...classes('loading')}>
 			<div {...classes('spinner')}>
-				<Spinner lg />
+				<Spinner centered />
 			</div>
 		</div>
 	</div>

@@ -35,7 +35,6 @@ class Row extends Component {
 								onUpdateInput={(e) => onGetSuggestions(e)}
 								dataSourceConfig={{ text: 'country', value: 'id' }}
 								filter={AutoComplete.noFilter}
-								maxSearchResults={10}
 								fullWidth
 							/>
 						</div>

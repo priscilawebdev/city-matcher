@@ -7,14 +7,16 @@ const classes = new BEMHelper({
 	name: 'Spinner'
 })
 
-export const Spinner = ({ lg, centered } = {}) => (
-	<div {...classes('', { lg, centered })} />
+export const Spinner = ({ lg, centered, inline, emptyState } = {}) => (
+	<div {...classes('', { lg, centered, inline, emptyState })} />
 )
 
 
 Spinner.propTypes = {
 	lg: T.bool,
-	centered: T.bool
+	centered: T.bool,
+	inline: T.bool,
+	emptyState: T.bool
 }
 
 export default Spinner
