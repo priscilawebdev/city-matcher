@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
-import { isEqual } from 'lodash'
+import { isEqual, includes } from 'lodash'
 import Snackbar from 'material-ui/Snackbar'
 import Waypoint from 'react-waypoint'
 import Row from '../components/Row'
 import Spinner from '../components/Spinner'
-import Loading from '../components/Loading'
+
+const currentCountries = []
+const currentRows = []
 
 class Home extends Component {
 	constructor(props) {
@@ -18,7 +20,6 @@ class Home extends Component {
 		this.state = {
 			page: 1,
 			limitPerPage: 10,
-			currentCountries: [],
 			isLoading: false
 		}
 	}
@@ -26,7 +27,6 @@ class Home extends Component {
 	componentDidMount() {
 		const { getAllCountries } = this.props
 		getAllCountries()
-		console.log('initial', this.props)
 	}
 
 	onGetSuggestions(e) {
@@ -51,36 +51,38 @@ class Home extends Component {
 		dismissNotification()
 	}
 
-	loadMore(splittedCountries) {
-		const currentCountries = this.state.currentCountries
-		this.setState({ isLoading: true })
-		setTimeout(() => {
-			splittedCountries.map((country) => (
-				currentCountries.push(country)
-			))
-			this.setState({
-				page: this.state.page += 1,
-				currentCountries,
-				isLoading: false
-			})
-		}, 2 * 1000)
+	loadMore() {
+		if (this.props.allCountries.length > 0) {
+			this.setState({ isLoading: true })
+			setTimeout(() => {
+				this.setState({
+					page: this.state.page += 1,
+					isLoading: false
+				})
+			}, 2 * 1000)
+		}
 	}
 
-	renderCountryRow() {
-		return this.state.currentCountries.length > 0 && (
-			<div className='list-group-item'>
-				{
-					this.state.currentCountries.map((country) => (
+	renderCountryRow(splittedCountries) {
+		splittedCountries.map((country) => { // eslint-disable-line array-callback-return
+			if (!currentCountries.find((item) => item.id === country.id)) {
+				currentCountries.push(country)
+				currentRows.push(
+					<div
+						className='list-group-item'
+						key={country.id}
+					>
 						<Row
-							key={country.id}
 							item={country}
 							onGetSuggestions={this.onGetSuggestions}
 							onSelectSuggestion={this.onSelectSuggestion}
 						/>
-					))
-				}
-			</div>
-		)
+					</div>
+				)
+			}
+		})
+
+		return currentRows
 	}
 
 	render() {
@@ -92,12 +94,16 @@ class Home extends Component {
 			<div className='main'>
 				<div className='container-fluid'>
 					<div className='list-group'>
-						{!isFetching ? this.renderCountryRow() : <Loading />}
+						{!isFetching ? (
+							this.renderCountryRow(splittedCountries)
+						) : (
+							<Spinner centered />
+						)}
 					</div>
 					<Waypoint
-						onEnter={() => this.loadMore(splittedCountries)}
+						onEnter={() => this.loadMore()}
 					/>
-					{(isFetching || this.state.isLoading) && (
+					{(!isFetching && this.state.isLoading) && (
 						<div className='u-spacing20px'>
 							<Spinner />
 						</div>
