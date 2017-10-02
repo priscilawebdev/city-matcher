@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
-import { isEqual, includes } from 'lodash'
+import { isEqual } from 'lodash'
 import Snackbar from 'material-ui/Snackbar'
 import Waypoint from 'react-waypoint'
 import Row from '../components/Row'
