@@ -32,7 +32,7 @@ export function getAllCountries() {
 		dispatch(actions.loadAllCountries())
 		rest.doGet('/api/all.json')
 			.then((allCountries) => {
-				dispatch(actions.recieveAllCountriesSuccessful(allCountries.data))
+				dispatch(actions.receiveAllCountriesSuccessful(allCountries.data))
 			})
 	}
 }
@@ -42,7 +42,7 @@ export function getCountryList(query) {
 		dispatch(actions.loadCountriesList())
 		rest.doGet(`/api/${query}.json`)
 			.then((countryList) => {
-				dispatch(actions.recieveCountryListSuccessful(countryList.data))
+				dispatch(actions.receiveCountryListSuccessful(countryList.data))
 			})
 	}
 }
@@ -56,11 +56,11 @@ export const actions = {
 	LOAD_COUNTRIES_LIST_FULFILLED: 'city-matcher/home/LOAD_COUNTRIES_LIST_FULFILLED',
 	LOAD_COUNTRIES_LIST_FAILED: 'city-matcher/home/LOAD_COUNTRIES_LIST_FAILED',
 
-	recieveAllCountriesSuccessful: (allCountries) => ({
+	receiveAllCountriesSuccessful: (allCountries) => ({
 		type: actions.LOAD_ALL_COUNTRIES_FULFILLED,
 		payload: { allCountries }
 	}),
-	recieveCountryListSuccessful: (countryList) => ({
+	receiveCountryListSuccessful: (countryList) => ({
 		type: actions.LOAD_COUNTRIES_LIST_FULFILLED,
 		payload: { countryList }
 	}),
