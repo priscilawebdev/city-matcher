@@ -5,8 +5,9 @@
 // Important modules this config uses
 const path = require('path')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = require('./webpack.config.base')({
 	// In production, we skip all hot-reloading stuff
@@ -24,49 +25,61 @@ module.exports = require('./webpack.config.base')({
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('production')
 		}),
+		new webpack.optimize.ModuleConcatenationPlugin(),
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor',
+			filename: 'vendor.[chunkhash].js',
+			minChunks(module) {
+				return module.context && module.context.indexOf('node_modules') >= 0
+			}
+		}),
 		new webpack.optimize.UglifyJsPlugin({
-			mangle: true,
 			compress: {
-				warnings: false, // Suppress uglification warnings
-				pure_getters: true,
-				unsafe: true,
-				unsafe_comps: true,
-				screw_ie8: true
+				warnings: false,
+				screw_ie8: true,
+				conditionals: true,
+				unused: true,
+				comparisons: true,
+				sequences: true,
+				dead_code: true,
+				evaluate: true,
+				if_return: true,
+				join_vars: true
 			},
 			output: {
 				comments: false
-			},
-			exclude: [/\.min\.js$/gi] // skip pre-minified libs
+			}
 		}),
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-		// Minify and optimize the index.html
+		new webpack.HashedModuleIdsPlugin(),
+		// Ignore all other locals except [en]
+		// (https://webpack.js.org/plugins/context-replacement-plugin/)
+		new webpack.ContextReplacementPlugin(
+			/moment[\/\\]locale$/, // eslint-disable-line no-useless-escape
+			/de|en/
+		),
 		new HtmlWebpackPlugin({
-			template: 'index.html',
+			template: path.resolve(__dirname, 'index.html'),
+			path: path.join(__dirname, 'dist'),
+			filename: 'index.html',
 			minify: {
-				removeComments: true,
 				collapseWhitespace: true,
-				removeRedundantAttributes: true,
-				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
-				keepClosingSlash: true,
-				minifyJS: true,
-				minifyCSS: true,
-				minifyURLs: true
-			},
-			inject: true
+				collapseInlineTagWhitespace: true,
+				removeComments: true,
+				removeRedundantAttributes: true
+			}
+		}),
+		new ExtractTextPlugin({
+			filename: '[name].[contenthash].css',
+			allChunks: true
 		}),
 		new CompressionPlugin({
 			asset: '[path].gz[query]',
 			algorithm: 'gzip',
-			test: /\.js$|\.css$|\.html$/,
+			test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
 			threshold: 10240,
 			minRatio: 0.8
 		})
 	],
 	stats: process.env.stats,
-	devtool: 'cheap-module-source-map',
-	performance: {
-		assetFilter: (assetFilename) => !(/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename))
-	}
+	devtool: 'cheap-module-source-map'
 })

@@ -4,93 +4,90 @@
 
 const path = require('path')
 
-module.exports = (options) => {
-	return {
-		entry: options.entry,
-		output: Object.assign({ // Compile into dist
-			path: path.resolve(__dirname, 'dist'),
-			publicPath: '/'
-		}, options.output), // Merge with env dependent settings
-		resolve: {
-			modules: [
-				path.resolve(__dirname, 'node_modules')
-			]
-		},
-		stats: {
-			hash: false,
-			colors: true,
-			chunks: false,
-			chunkModules: false,
-			version: false,
-			reasons: true
-		},
-		node: {
-			console: true,
-			fs: 'empty',
-			net: 'empty',
-			tls: 'empty'
-		},
-		module: {
-			rules: [{
-				test: /\.js$/, // Transform all .js files required somewhere with Babel
-				loader: 'babel-loader',
-				exclude: /node_modules/
+module.exports = (options) => ({
+	entry: options.entry,
+	output: Object.assign({ // Compile into dist
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: '/'
+	}, options.output), // Merge with env dependent settings
+	resolve: {
+		modules: [
+			path.resolve(__dirname, 'node_modules')
+		]
+	},
+	stats: {
+		hash: false,
+		colors: true,
+		chunks: false,
+		chunkModules: false,
+		version: false,
+		reasons: true
+	},
+	node: {
+		console: true,
+		fs: 'empty',
+		net: 'empty',
+		tls: 'empty'
+	},
+	module: {
+		rules: [{
+			test: /\.js$/, // Transform all .js files required somewhere with Babel
+			loader: 'babel-loader',
+			exclude: /node_modules/
+		}, {
+			test: /\.css$/,
+			include: /node_modules/,
+			loaders: ['style-loader', 'css-loader']
+		}, {
+			test: /\.sass$/,
+			use: [{
+				loader: 'style-loader' // creates style nodes from JS strings
 			}, {
-				test: /\.css$/,
-				include: /node_modules/,
-				loaders: ['style-loader', 'css-loader']
+				loader: 'css-loader',
+				options: { url: true }
 			}, {
-				test: /\.sass$/,
-				use: [{
-					loader: 'style-loader' // creates style nodes from JS strings
-				}, {
-					loader: 'css-loader',
-					options: { url: true }
-				}, {
-					loader: 'sass-loader', // compiles Sass to CSS
-					options: {
-						sourceMap: true
-					}
-				}]
-			}, {
-				test: /\.(eot|ttf|woff|woff2)$/,
-				loader: 'file-loader'
-			}, {
-				test: /\.(gif|png|jpe?g|svg)$/i,
-				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: '[sha512:hash:base64:7].[ext]'
-						}
-					},
-					{
-						loader: 'image-webpack-loader',
-						options: {
-							svgo: {
-								plugins: [
-									{ removeTitle: true },
-									{ removeMetadata: true },
-									{ removeUselessStrokeAndFill: true },
-									{ cleanupIDs: true },
-									{ removeUnknownsAndDefaults: true },
-									{ removeEmptyText: true },
-									{ removeHiddenElems: true },
-									{ removeEmptyAttrs: true },
-									{ removeComments: true }
-								]
-							}
-						}
-					}
-				]
-			}, {
-				test: /\.html$/,
-				loader: 'html-loader'
+				loader: 'sass-loader', // compiles Sass to CSS
+				options: {
+					sourceMap: true
+				}
 			}]
-		},
-		plugins: options.plugins,
-		devtool: options.devtool,
-		target: 'web', // Make web variables accessible to webpack, e.g. window,
-		performance: options.performance || {}
-	}
-}
+		}, {
+			test: /\.(eot|ttf|woff|woff2)$/,
+			loader: 'file-loader'
+		}, {
+			test: /\.(gif|png|jpe?g|svg)$/i,
+			use: [
+				{
+					loader: 'file-loader',
+					options: {
+						name: '[sha512:hash:base64:7].[ext]'
+					}
+				},
+				{
+					loader: 'image-webpack-loader',
+					options: {
+						svgo: {
+							plugins: [
+								{ removeTitle: true },
+								{ removeMetadata: true },
+								{ removeUselessStrokeAndFill: true },
+								{ cleanupIDs: true },
+								{ removeUnknownsAndDefaults: true },
+								{ removeEmptyText: true },
+								{ removeHiddenElems: true },
+								{ removeEmptyAttrs: true },
+								{ removeComments: true }
+							]
+						}
+					}
+				}
+			]
+		}, {
+			test: /\.html$/,
+			loader: 'html-loader'
+		}]
+	},
+	plugins: options.plugins,
+	devtool: options.devtool,
+	target: 'web' // Make web variables accessible to webpack, e.g. window
+})

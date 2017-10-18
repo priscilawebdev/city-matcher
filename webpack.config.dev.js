@@ -8,6 +8,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 
 const plugins = [
+	new webpack.DefinePlugin({
+		'process.env.NODE_ENV': JSON.stringify('development')
+	}),
 	new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
 	new webpack.NoEmitOnErrorsPlugin(),
 	new webpack.NamedModulesPlugin(),
@@ -35,8 +38,5 @@ module.exports = require('./webpack.config.base')({
 	babelQuery: {
 		presets: ['babel-preset-react-hmre'].map(require.resolve)
 	},
-	devtool: 'eval-source-map',
-	performance: {
-		hints: false
-	}
+	devtool: 'eval-source-map'
 })
