@@ -90,7 +90,7 @@
     "prebuild": "npm-run-all clean lint",
     "build": "babel-node ./tools/build.js",
     "postbuild": "babel-node ./tools/distServer.js",
-    "postinstall": "npm run build",
+    "postinstall": "babel-node ./tools/build.js",
     "startheroku": "babel-node ./tools/srcServer.js"
   }
 }
