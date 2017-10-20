@@ -90,7 +90,7 @@
     "prebuild": "npm-run-all clean lint",
     "build": "babel-node ./tools/build.js",
     "postbuild": "babel-node ./tools/distServer.js",
-    "postinstall": "npm run build",
-    "start": "babel-node ./tools/build.js"
+    "postinstall": "npm run clean",
+    "start": "node ./tools/build.js && node ./tools/distServer.js"
   }
 }

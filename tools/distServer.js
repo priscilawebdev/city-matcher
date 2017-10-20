@@ -1,7 +1,7 @@
-import express from 'express'
-import open from 'open'
-import path from 'path'
-import cors from 'cors'
+const express = require('express')
+const open = require('open')
+const path = require('path')
+const cors = require('cors')
 
 /* eslint-disable no-console */
 

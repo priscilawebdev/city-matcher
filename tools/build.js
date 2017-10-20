@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import 'colors'
-import webpack from 'webpack'
-import webpackConfig from '../webpack.config.prod'
+require('colors')
+const webpack = require('webpack')
+const webpackConfig = require('../webpack.config.prod')
 
 console.log('Generating minified bundle for production via Webpack. This will take a moment...'.blue)
 
