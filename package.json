@@ -14,7 +14,8 @@
     "firebase"
   ],
   "engines": {
-    "node": ">=8.1.4"
+    "node": ">=8.1.4",
+    "yarn": ">=0.24.5"
   },
   "dependencies": {
     "axios": "0.16.2",
@@ -80,7 +81,7 @@
   },
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
-    "start": "npm run dev && npm-run-all --parallel open:src lint:watch",
+    "devstart": "npm run dev && npm-run-all --parallel open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "dev": "webpack --config webpack.config.dev.js",
     "lint": "eslint ./src",
@@ -89,6 +90,7 @@
     "prebuild": "npm-run-all clean lint",
     "build": "babel-node ./tools/build.js",
     "postbuild": "babel-node ./tools/distServer.js",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "start": "babel-node ./tools/build.js"
   }
 }
