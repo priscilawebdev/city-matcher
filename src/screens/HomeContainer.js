@@ -1,7 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Home from './Home'
-import { SelectMessage, SelectHome } from './selectors'
 import { getAllCountries, getCountryList } from '../ducks/home'
 import { emitNotification, dismissNotification } from '../ducks/message'
 
@@ -13,8 +12,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch)
 
 const mapStateToProps = (state) => ({
-	...SelectHome(state),
-	...SelectMessage(state)
+	...state.home,
+	...state.message
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

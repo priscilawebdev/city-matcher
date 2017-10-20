@@ -1,27 +1,20 @@
-import { fromJS } from 'immutable'
+
 import rest from '../common/rest'
 
-const initialState = fromJS({
+const initialState = {
 	allCountries: [],
 	countryList: [],
 	isFetching: false
-})
+}
 
 export default function reducer(state = initialState, { type, payload }) {
 	switch (type) {
 		case actions.LOAD_ALL_COUNTRIES:
-			return state.merge({
-				isFetching: true
-			})
+			return { ...state, isFetching: true }
 		case actions.LOAD_ALL_COUNTRIES_FULFILLED:
-			return state.merge({
-				allCountries: payload.allCountries,
-				isFetching: false
-			})
+			return { ...state, allCountries: payload.allCountries, isFetching: false }
 		case actions.LOAD_COUNTRIES_LIST_FULFILLED:
-			return state.merge({
-				countryList: payload.countryList
-			})
+			return { ...state, countryList: payload.countryList }
 		default:
 			return state
 	}

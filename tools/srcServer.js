@@ -12,22 +12,19 @@ const app = express()
 const compiler = webpack(config)
 
 app.use(cors())
+
 app.use(require('webpack-dev-middleware')(compiler, {
 	noInfo: true,
-	publicPath: config.output.publicPath
+	compress: true,
+	publicPath: config.output.publicPath,
+	contentBase: path.join(__dirname, 'public')
 }))
+
 app.use(require('webpack-hot-middleware')(compiler))
-app.use('/api', express.static(path.join(process.cwd(), 'api')))
-app.get('/', (req, res, next) => {
-	const filename = path.join(compiler.outputPath, 'index.html')
-	compiler.outputFileSystem.readFile(filename, (err, result) => {
-		if (err) {
-			return next(err)
-		}
-		res.set('content-type', 'text/html')
-		res.send(result)
-		res.end()
-	})
+
+app.use('/api', express.static(path.join(__dirname, '../api')))
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, '../public/index.html'))
 })
 
 app.listen(port, (err) => {
@@ -37,3 +34,4 @@ app.listen(port, (err) => {
 		open(`http://localhost:${port}`)
 	}
 })
+

@@ -8,19 +8,31 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = require('./webpack.config.base')({
 	// In production, we skip all hot-reloading stuff
 	entry: [
-		path.join(process.cwd(), 'src/index.js')
+		'babel-polyfill',
+		path.join(__dirname, 'src/index.js') // Start with src/index.js
 	],
 
 	// Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
 	output: {
 		filename: '[name].[chunkhash].js',
-		chunkFilename: '[name].[chunkhash].chunk.js'
+		chunkFilename: '[name].[chunkhash].chunk.js',
 	},
-
+	module: {
+		test: /\.sass/,
+		use: ExtractTextPlugin.extract({
+			use: [{
+				loader: 'css-loader'
+			}, {
+				loader: 'sass-loader'
+			}],
+			fallback: 'style-loader'
+		})
+	},
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify('production')
@@ -58,9 +70,7 @@ module.exports = require('./webpack.config.base')({
 			/de|en/
 		),
 		new HtmlWebpackPlugin({
-			template: path.resolve(__dirname, 'index.html'),
-			path: path.join(__dirname, 'dist'),
-			filename: 'index.html',
+			template: path.join(__dirname, 'public/index.html'),
 			minify: {
 				collapseWhitespace: true,
 				collapseInlineTagWhitespace: true,
@@ -78,7 +88,8 @@ module.exports = require('./webpack.config.base')({
 			test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
 			threshold: 10240,
 			minRatio: 0.8
-		})
+		}),
+		new CopyWebpackPlugin(['./public/manifest.json', './public/favicon.ico'])
 	],
 	stats: process.env.stats,
 	devtool: 'cheap-module-source-map'

@@ -4,14 +4,13 @@ import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import BEMHelper from 'react-bem-helper'
 import AutoComplete from 'material-ui/AutoComplete'
-import { SelectHome } from '../screens/selectors'
 import './row.sass'
 
 const classes = new BEMHelper({
 	name: 'Row'
 })
 
-class Row extends Component {
+class Row extends Component { // eslint-disable-line react/prefer-stateless-function
 	render() {
 		const { intl: { formatMessage }, item, countryList, onGetSuggestions, onSelectSuggestion } = this.props
 		return (
@@ -54,7 +53,7 @@ Row.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-	...SelectHome(state)
+	...state.home
 })
 
 export default connect(mapStateToProps)(injectIntl(Row))

@@ -7,7 +7,7 @@ console.log('Generating minified bundle for production via Webpack. This will ta
 
 webpack(webpackConfig).run((err, stats) => {
 	if (err) { // so a fatal error occurred. Stop here.
-		console.log(err.bold.red)
+		console.log(err.red)
 		return 1
 	}
 

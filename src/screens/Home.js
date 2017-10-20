@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { injectIntl } from 'react-intl'
-import { isEqual } from 'lodash'
+import { injectIntl, intlShape } from 'react-intl'
+import PropTypes from 'prop-types'
+import isEqual from 'lodash/isEqual'
 import Snackbar from 'material-ui/Snackbar'
 import Waypoint from 'react-waypoint'
 import Row from '../components/Row'
@@ -41,9 +42,9 @@ class Home extends Component {
 			city: country.name,
 			selected: country
 		}
-		isEqual(result, country) && (
+		if (isEqual(result, country)) {
 			emitNotification('info', lastSelection)
-		)
+		}
 	}
 
 	onCloseSnack() {
@@ -122,6 +123,18 @@ class Home extends Component {
 			</div>
 		)
 	}
+}
+
+Home.propTypes = {
+	getAllCountries: PropTypes.func.isRequired,
+	getCountryList: PropTypes.func.isRequired,
+	emitNotification: PropTypes.func.isRequired,
+	dismissNotification: PropTypes.func.isRequired,
+	allCountries: PropTypes.array.isRequired,
+	isFetching: PropTypes.bool.isRequired,
+	show: PropTypes.bool.isRequired,
+	content: PropTypes.object.isRequired,
+	intl: intlShape
 }
 
 export default injectIntl(Home)

@@ -1,26 +1,22 @@
 import hash from 'object-hash'
-import { fromJS } from 'immutable'
 
-const initialState = fromJS({
+const initialState = {
 	show: false,
 	type: null,
 	content: {}
-})
+}
 
 export default function reducer(state = initialState, { payload, type }) {
 	switch (type) {
 		case actions.DESTROY_NOTIFICATION:
-			return state.merge({
-				show: false,
-				type: null,
-				content: {}
-			})
+			return initialState
 		case actions.CREATE_NOTIFICATION:
-			return state.merge({
+			return {
+				...state,
 				show: true,
 				type: payload.type,
 				content: payload.content
-			})
+			}
 		default:
 			return state
 	}
