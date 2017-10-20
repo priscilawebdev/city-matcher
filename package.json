@@ -81,7 +81,7 @@
   },
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
-    "devstart": "npm run dev && npm-run-all --parallel open:src lint:watch",
+    "start": "npm run dev && npm-run-all --parallel open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "dev": "webpack --config webpack.config.dev.js",
     "lint": "eslint ./src",
@@ -90,7 +90,7 @@
     "prebuild": "npm-run-all clean lint",
     "build": "babel-node ./tools/build.js",
     "postbuild": "babel-node ./tools/distServer.js",
-    "postinstall": "npm run clean",
-    "start": "node ./tools/build.js && node ./tools/distServer.js"
+    "postinstall": "npm run clean && node ./tools/build.js",
+    "herokustart": "node ./tools/distServer.js"
   }
 }
