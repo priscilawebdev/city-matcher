@@ -49,7 +49,6 @@
     "babel-cli": "6.24.1",
     "babel-eslint": "7.2.3",
     "babel-loader": "^7.1.2",
-    "babel-node": "^6.5.3",
     "babel-plugin-styled-components": "^1.2.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "6.16.0",
@@ -81,7 +80,7 @@
   },
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
-    "startdev": "npm run dev && npm-run-all --parallel open:src lint:watch",
+    "start": "npm run dev && npm-run-all --parallel open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "dev": "webpack --config webpack.config.dev.js",
     "lint": "eslint ./src",
@@ -90,7 +89,6 @@
     "prebuild": "npm-run-all clean lint",
     "build": "babel-node ./tools/build.js",
     "postbuild": "babel-node ./tools/distServer.js",
-    "postinstall": "npm run clean && webpack --config webpack.config.prod.js",
-    "start": "node ./server.js"
+    "postinstall": "npm run build"
   }
 }
