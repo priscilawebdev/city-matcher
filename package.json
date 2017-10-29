@@ -72,7 +72,6 @@
     "image-webpack-loader": "^3.4.2",
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.1.1",
-    "path": "^0.12.7",
     "sass-loader": "^6.0.6",
     "style-loader": "0.16.1",
     "webpack": "^3.8.1",
