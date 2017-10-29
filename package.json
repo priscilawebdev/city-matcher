@@ -9,9 +9,7 @@
   "keywords": [
     "javascript",
     "react",
-    "redux",
-    "saga",
-    "firebase"
+    "redux"
   ],
   "engines": {
     "node": ">=8.1.4",
